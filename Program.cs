@@ -1,4 +1,6 @@
 ﻿// ask for input
+using System.Globalization;
+
 Console.WriteLine("Enter 1 to create data file.");
 Console.WriteLine("Enter 2 to parse data.");
 Console.WriteLine("Enter anything else to quit.");
@@ -43,6 +45,49 @@ if (resp == "1")
 }
 else if (resp == "2")
 {
-    // TODO: parse data file
+    string file = "data.txt";
+    StreamReader sr = new StreamReader(file);
+    while (!sr.EndOfStream)
+    {
+        string line = sr.ReadLine();
+        string[] arr = line.Split(",");
+        string dateString = arr[0];
+        string data = arr[1];
+        DateTime weekStartDate = DateTime.ParseExact(dateString, "M/d/yyyy", CultureInfo.InvariantCulture);
+        int[] hoursOfSleep = Array.ConvertAll(data.Split("|"), int.Parse);
+        DisplayReport(weekStartDate, hoursOfSleep);
+    }
+
+
+    
  
 }
+static void DisplayReport(DateTime date, int[] hoursOfSleep)
+{
+    Console.WriteLine($"Week of {date:MMM, dd, yyyy}");
+    PrintDaysAndDashes();
+    for (int i = 0; i < hoursOfSleep.Length; i++)
+    {
+        Console.Write($"{hoursOfSleep[i],3}");
+    }
+    Console.WriteLine("\n");
+    
+}
+static void PrintDaysAndDashes()
+{
+    string[] days = { "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" };
+    string dash = "--";
+    foreach (var day in days)
+    {
+        Console.Write($"{day,3}");
+    }
+    Console.WriteLine();
+    for (int i = 0; i < days.Length; i++)
+    {
+        Console.Write($"{dash,3}");
+    }
+    Console.WriteLine();
+
+}
+
+
