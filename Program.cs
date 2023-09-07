@@ -66,28 +66,42 @@ static void DisplayReport(DateTime date, int[] hoursOfSleep)
 {
     Console.WriteLine($"Week of {date:MMM, dd, yyyy}");
     PrintDaysAndDashes();
-    for (int i = 0; i < hoursOfSleep.Length; i++)
+    // calculate total hours
+    int totalHours = 0;
+    foreach (var hours in hoursOfSleep)
     {
-        Console.Write($"{hoursOfSleep[i],3}");
+        Console.Write($"{hours,3}");
+        totalHours += hours;
     }
-    Console.WriteLine("\n");
-    
+    // calculate average hours
+    double averageHours = (double)totalHours / hoursOfSleep.Length;
+    Console.Write($"{totalHours,4}");
+    Console.Write($"{averageHours,4:N1}\n\n");      
 }
 static void PrintDaysAndDashes()
 {
     string[] days = { "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" };
-    string dash = "--";
+    string[] calcs = { "Tot", "Avg" };
+    string dash2 = "--";
+    string dash3 = "---";
     foreach (var day in days)
     {
         Console.Write($"{day,3}");
     }
+    foreach(var calc in calcs) 
+    {
+        Console.Write($"{calc,4}");
+    }
     Console.WriteLine();
     for (int i = 0; i < days.Length; i++)
     {
-        Console.Write($"{dash,3}");
+        Console.Write($"{dash2,3}");
+    }
+    for (int i = 0; i < calcs.Length; i++)
+    {
+        Console.Write($"{dash3,4}");
     }
     Console.WriteLine();
-
 }
 
 
